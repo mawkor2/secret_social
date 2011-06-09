@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ 
+<prefwindow 
+     title="Secret Social Preferences"
+     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+ 
+	<prefpane label="Secret Social Preferences">
+		<preferences>
+			<preference id="enable-twitter" name="extensions.secretsocial.enable_twitter" type="bool"/>
+			<preference id="enable-gmail" name="extensions.secretsocial.enable_gmail" type="bool"/>
+		</preferences>
+		
+		<groupbox>
+			<caption label="Settings"/>
+			<grid>
+				<columns>
+					<column flex="4"/>
+					<column flex="1"/>
+				</columns>
+				<rows>
+					<row>
+						<label control="enable-twitter-ctrl" value="Enable Twitter"/>
+						<checkbox id="enable-twitter-cb" preference="enable-twitter"/>
+					</row>
+					<row>
+						<label control="enable-gmail-ctrl" value="Enable Gmail"/>
+						<checkbox id="enable-twitter-cb" preference="enable-gmail"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>	
+		
+	</prefpane>
+ 
+</prefwindow>
