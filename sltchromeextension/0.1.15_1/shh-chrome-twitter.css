@@ -1,0 +1,16 @@
+.shh-goprivate {
+    float: right !important;
+}
+.details-pane .shh-goprivate {
+    line-height: 20px;
+}
+.shh-goprivate i {
+    padding: 2px !important;
+    background-color: transparent !important;
+    background-repeat: no-repeat !important;
+    background-position: 3px 3px !important;
+    width: 11px !important;
+    height: 11px !important;
+    margin-left: 3px !important;
+}
+
