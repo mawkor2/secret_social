@@ -35,7 +35,11 @@
         }
       },
       condition: function() {
-        if ((pageletComposer = document.getElementById('pagelet_composer')) && 
+        pageletComposer = document.getElementById('pagelet_composer');
+        if (!pageletComposer) {
+          pageletComposer = document.getElementById('profile_stream_composer');
+        }
+        if (pageletComposer && 
            pageletComposer.getElementsByClassName('privacyWidget') &&
             pageletComposer.
               getElementsByClassName('privacyWidget').length > 0 &&        
@@ -205,10 +209,14 @@
 
   return {
     init : function() {
-      attachWhenReady({elemId: 'home_stream', evt: 'mouseover', 
-        cb: setupHovercardSSLink});
-      attachWhenReady({elemId: 'pagelet_wall', evt: 'mouseover', 
-        cb: setupHovercardSSLink});
+      if (document.getElementById('pagelet_home_stream')) {
+        attachWhenReady({elemId: 'home_stream', evt: 'mouseover', 
+          cb: setupHovercardSSLink});
+      }
+      else {
+        attachWhenReady({elemId: 'pagelet_wall', evt: 'mouseover', 
+          cb: setupHovercardSSLink});
+      }
       setupShareSSTopic();
     }
   }
