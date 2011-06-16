@@ -134,7 +134,7 @@
         return false;
       }
     })();
-  }
+  };
 
   /** Pass in 
     * {elemId, evt, cb, pollInterval, retryCount}
@@ -200,7 +200,7 @@
     return function() {
       return fn.apply(scope, args);
     };
-  }
+  };
 
   return {
     init : function() {
