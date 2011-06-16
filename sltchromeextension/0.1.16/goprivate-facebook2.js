@@ -191,7 +191,7 @@
     }
   };
 
-  function curry (fn, scope) {
+  var curry = function(fn, scope) {
     var scope = scope || window;
     var args = [];
     for (var i=2, len = arguments.length; i < len; ++i) {
