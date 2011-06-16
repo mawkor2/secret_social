@@ -35,7 +35,8 @@
         }
       },
       condition: function() {
-        if (pageletComposer = document.getElementById('pagelet_composer') && 
+        if ((pageletComposer = document.getElementById('pagelet_composer')) && 
+           pageletComposer.getElementsByClassName('privacyWidget') &&
             pageletComposer.
               getElementsByClassName('privacyWidget').length > 0 &&        
             (privacyWidget = pageletComposer.
