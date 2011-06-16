@@ -8,18 +8,21 @@
     document.location.href = shhFinalUrl;
   };
 
-  var shhMessageTemplate = '<a class="ss-message-placed uiTooltip MessagingShareOption" rel="async" href="#" target="_new"><span class="uiTooltipWrap top left lefttop"><span class="uiTooltipText uiTooltipNoWrap">Go Private</span></span></a>';
+  var shhMessageTemplate = '<a class="ss-message-placed uiTooltip\
+    MessagingShareOption" rel="async" href="#" target="_new"><span\
+    class="uiTooltipWrap top left lefttop"><span class="uiTooltipText\
+    uiTooltipNoWrap">Go Private</span></span></a>';
 
   var setupShareSSTopic = function() {
-    var interval = 0, retries = 0, retryCount = 30, pollInterval = 400, privacyWidget;
-    var interval = setInterval(function() {
-      var pageletComposer = document.getElementById('pagelet_composer');
-      if (pageletComposer && pageletComposer.getElementsByClassName('privacyWidget').length > 0 && (privacyWidget = pageletComposer.getElementsByClassName('privacyWidget')[0])) {
-        if (!pageletComposer.innerHTML.toString().match('ss-placed-pc')) {
+    var privacyWidget, pageletComposer = null;
+    whenReady({
+      cb: function() {
+       if (!pageletComposer.innerHTML.toString().match('ss-placed-pc')) {
           var parentUL = privacyWidget.parentNode;
           var shareNode = parentUL.children[1];
           var ssButton = shareNode.cloneNode(true);
-          ssButton.setAttribute('class', ssButton.getAttribute('class') + ' ss-placed-pc');
+          ssButton.setAttribute('class', 
+            ssButton.getAttribute('class') + ' ss-placed-pc');
           ssButton.firstChild.firstChild.value = 'Private Chat';
           ssButton.firstChild.firstChild.setAttribute('type', null);
           ssButton.firstChild.style.backgroundImage = 'url(' + icon + ')';
@@ -28,16 +31,20 @@
           ssButton.firstChild.style.paddingLeft = '21px';
           ssButton.firstChild.style.width = '83px';
           ssButton.addEventListener('click', goToSecretSocial, false);
-         // ssButton.firstChild.style.backgroundColor = 
           parentUL.insertBefore(ssButton, shareNode);
         }
-        clearInterval(interval);
+      },
+      condition: function() {
+        if (pageletComposer = document.getElementById('pagelet_composer') && 
+            pageletComposer.
+              getElementsByClassName('privacyWidget').length > 0 &&        
+            (privacyWidget = pageletComposer.
+              getElementsByClassName('privacyWidget')[0])) {
+          return true;
+        };
+        return false;
       }
-      else if (retries === retryCount) {
-        clearInterval(interval);
-      }
-      retries++;
-    });
+    })();
   };
 
   var setupHovercardSSLink = function() {
@@ -53,17 +60,21 @@
 
   var setupMessagingComposerButton = function(messagingComposerRef) {
     messagingComposer = messagingComposerRef;
-    if (messagingComposer.getElementsByClassName('ss-message-placed').length > 0) {
+    var placedElement = messagingComposer.
+      getElementsByClassName('ss-message-placed');
+    if (placedElement.length > 0) {
       return;
     };
-    var linkUL = messagingComposer.getElementsByClassName('MessagingAttachmentLinks')[0];
+    var linkUL = messagingComposer.
+      getElementsByClassName('MessagingAttachmentLinks')[0];
     //var sendButton = messagingComposer.parentNode.parentNode.getElementsByClassName('uiButtonConfirm')[0].firstChild;
     var newLI = linkUL.firstChild.cloneNode();
     newLI.innerHTML = shhMessageTemplate;
     newLI.firstChild.style.backgroundImage = 'url(' + icon + ')';
     newLI.style.marginLeft = '5px';
     linkUL.appendChild(newLI);
-    newLI.firstChild.addEventListener('mouseover', function(evt){ setMessagingSSLink(); }, true);
+    newLI.firstChild.addEventListener('mouseover', function(evt){ 
+      setMessagingSSLink(); }, true);
     newLI.firstChild.addEventListener('click', function(evt){
       // kind of silly
       document.location.href = evt.target.href;
@@ -72,7 +83,8 @@
   };
 
   var setMessagingSSLink = function() {
-    var message = encodeURIComponent(messagingComposer.getElementsByClassName('MessagingComposerFullTextArea')[0].value);
+    var message = encodeURIComponent(messagingComposer.
+      getElementsByClassName('MessagingComposerFullTextArea')[0].value);
     var query = (message) ? ['topic=' + encodeURIComponent(message)] : [];
     messagingLink = shhURL + query;
     // uncomment when ss landing pg supports fb ids
@@ -93,32 +105,35 @@
   };
 
   var checkForSSLink = function(aTarget) {
-    var hoverCard, actionLinks, interval = 0, retries = 0, retryCount = 30, pollInterval = 100, actionUL;
-    var interval = setInterval(function() {
-      if (document.getElementsByClassName('HovercardOverlay').length > 0 &&
-         (hoverCard = document.getElementsByClassName('HovercardOverlay')[0]) && 
-         (actionLinks = hoverCard.getElementsByClassName('pvs')[0]) &&
-         (actionUL = actionLinks.firstChild)) {
+    var hoverCard, actionLinks, actionUL;
+    whenReady({
+      cb: function() {
         if (!actionUL.innerHTML.toString().match('ss-placed-hc')) {
           var sendMessageLI = actionUL.firstChild;
-          sendMessageLI.addEventListener('click', isReady({
+          sendMessageLI.addEventListener('click', whenReady({
             cb: setupMessagingComposerButton,
             condition: function() {
-              var messagingComposerNX = document.getElementsByClassName("MessagingComposer");
+              var messagingComposerNX = document.
+                getElementsByClassName("MessagingComposer");
               if (messagingComposerNX.length > 0) {
                 return messagingComposerNX[0];
               }
               return false;
             }
           }), true);
+        };
+      },
+      condition: function() {
+        if (document.getElementsByClassName('HovercardOverlay').length > 0 &&
+           (hoverCard = document.getElementsByClassName('HovercardOverlay')[0]) 
+             && 
+           (actionLinks = hoverCard.getElementsByClassName('pvs')[0]) &&
+           (actionUL = actionLinks.firstChild)) {
+          return true;
         }
-        clearInterval(interval);
+        return false;
       }
-      else if (retries === retryCount) {
-        clearInterval(interval);
-      };
-      retries++;
-    }, pollInterval);
+    })();
   }
 
   /** Pass in 
@@ -148,9 +163,16 @@
     }, conf.pollInterval);
   };
 
-  var isReady = function(obj) {
+  var whenReady = function(obj) {
     return function() {
-      var interval = 0, retries = 0, retryCount = 30, pollInterval = 100, cbArgs = [], conditionArgs = [], retVal, cb = obj.cb;
+      var interval = 0, 
+          retries = 0, 
+          retryCount = 30, 
+          pollInterval = 100, 
+          cbArgs = [], 
+          conditionArgs = [], 
+          retVal, 
+          cb = obj.cb;
       if (obj.retryCount) { retryCount = obj.retryCount; };
       if (obj.pollInterval) { pollInterval = obj.pollInterval; };
       if (obj.cbArgs) { cbArgs = obj.cbArgs; };
@@ -182,7 +204,8 @@
 
   return {
     init : function() {
-      attachWhenReady({elemId: 'home_stream', evt: 'mouseover', cb: setupHovercardSSLink});
+      attachWhenReady({elemId: 'home_stream', evt: 'mouseover', 
+        cb: setupHovercardSSLink});
       setupShareSSTopic();
     }
   }
