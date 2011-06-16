@@ -18,7 +18,8 @@
     "run_at": "document_end"
   }, {
     "matches": ["http://www.facebook.com/", "http://www.facebook.com/*"],
-    "js": ["goprivate-facebook.js"],
+    "js": ["goprivate-facebook2.js"],
+    "css": ["shh-chrome-facebook.css"],
     "run_at": "document_end"
   }]
 }
