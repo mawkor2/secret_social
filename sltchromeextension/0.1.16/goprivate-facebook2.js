@@ -78,7 +78,7 @@
       setMessagingSSLink(); }, true);
     newLI.firstChild.addEventListener('click', function(evt){
       // kind of silly
-      document.location.href = evt.target.href;
+      window.open(evt.target.href,"ss-window");
     }, true);
     messagingAnchor = newLI.firstChild;
   };
@@ -206,6 +206,8 @@
   return {
     init : function() {
       attachWhenReady({elemId: 'home_stream', evt: 'mouseover', 
+        cb: setupHovercardSSLink});
+      attachWhenReady({elemId: 'pagelet_wall', evt: 'mouseover', 
         cb: setupHovercardSSLink});
       setupShareSSTopic();
     }
