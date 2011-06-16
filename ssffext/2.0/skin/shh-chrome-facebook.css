@@ -1,0 +1,6 @@
+a.ss-message-placed { background-repeat: no-repeat; background-position: 1px 1px; height: 17px; width: 7px; background-position: 2px 2px;}
+a.ss-message-placed:link {background-position: 2px 2px;}
+a.ss-message-placed:visited {background-position: 2px 2px;}
+a.ss-message-placed:active {background-position: 2px 2px;}
+a.ss-message-placed:hover {background-position: 2px 2px;}
+

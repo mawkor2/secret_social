@@ -1,0 +1,7 @@
+content     secretsocial    chrome/content/
+content     secretsocial    chrome/content/ contentaccessible=yes
+overlay chrome://browser/content/browser.xul chrome://secretsocial/content/browser.xul
+
+locale	secretsocial	en-US	locale/en-US/
+
+skin	secretsocial	classic/1.0	skin/
